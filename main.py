@@ -76,9 +76,9 @@ def main():
             output_video.release()
         elif args.mode.lower() == 'webcam':  # Made case-insensitive
             cap = cv2.VideoCapture(0)
-            ##if not cap.isOpened():
-                ##print("Error: Cannot open webcam.")
-                ##return
+            if not cap.isOpened():
+                print("Error: Cannot open webcam.")
+                return
 
             while True:
                 ret, frame = cap.read()
