@@ -27,8 +27,8 @@ def process_img(img, face_detection):
     return img
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--mode", default='video')
-    parser.add_argument("--filePath", default='./data/testVideo.mp4')
+    parser.add_argument("--mode", default='webcam')
+    parser.add_argument("--filePath", default=None)
     args = parser.parse_args()
 
     output_dir = './output'
@@ -74,7 +74,32 @@ def main():
                 # Release resources
             cap.release()
             output_video.release()
-        
+        elif args.mode.lower() == 'webcam':  # Made case-insensitive
+            cap = cv2.VideoCapture(0)
+            ##if not cap.isOpened():
+                ##print("Error: Cannot open webcam.")
+                ##return
+
+            while True:
+                ret, frame = cap.read()
+                if not ret:
+                    print("Error: Cannot read from webcam.")
+                    break
+
+                processed_frame = process_img(frame, face_detection)
+                if processed_frame is not None:
+                    cv2.imshow("Webcam Face Blur", processed_frame)
+                
+                # Break the loop if 'q' is pressed
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+
+            # Release resources
+            cap.release()
+            cv2.destroyAllWindows()
+
+
+
 if __name__ == "__main__":
     main()            
 
