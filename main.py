@@ -27,7 +27,7 @@ def process_img(img, face_detection):
     return img
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--mode", default='image')
+    parser.add_argument("--mode", default='video')
     parser.add_argument("--filePath", default='./data/testVideo.mp4')
     args = parser.parse_args()
 
@@ -60,7 +60,7 @@ def main():
                 print("Error: Failed to read video.")
             
             output_video = cv2.VideoWriter(os.path.join(output_dir,'output.mp4'),
-                                        cv2.VideoWriter.fourcc(*'MP4V'),
+                                        cv2.VideoWriter.fourcc(*'avc1'),
                                         25,
                                         (frame.shape[1], frame.shape[0])
                                         )
@@ -74,7 +74,7 @@ def main():
                 # Release resources
             cap.release()
             output_video.release()
-            cap.release()
+        
 if __name__ == "__main__":
     main()            
 
